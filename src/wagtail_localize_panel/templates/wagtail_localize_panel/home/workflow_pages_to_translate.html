@@ -1,0 +1,40 @@
+{% load i18n wagtailadmin_tags %}
+{% if pages %}
+<section class="object collapsible">
+    <h2 class="title-wrapper">
+        {% blocktrans with locale=locale.language_code %}Awaiting your translation in {{locale}}{% endblocktrans %}
+    </h2>
+    <br/>
+    <br/>
+    <br/>
+    <div class="object-layout">
+      <table class="listing">
+        <col width="10%"/>
+        <col width="auto"/>
+        <col width="80px"/>
+        <col width="80px"/>
+        <col width="80px"/>
+        <thead>
+          <tr>
+            <th class="slug">{% trans "Slug" %}</th>
+            <th class="title">{% trans "Page" %}</th>
+            <th>{% trans "Source Count" %}</th>
+            <th>{% trans "Translated Count" %}</th>
+            <th>{% trans "% translated" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for page in pages %}
+            <tr>
+              <td>{{ page.slug }}</td>
+              <td><a href="{{ page.localized_url }}">{{ page.title }}</a></td>
+              <td style="text-align: right;">{{ page.source_cnt }}</td>
+              <td style="text-align: right;">{{ page.trans_cnt }}</td>
+              <td style="text-align: right;">{{ page.trans_prc|floatformat:2|intcomma }}%</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+</section>
+{% endif %}

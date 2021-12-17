@@ -1,0 +1,32 @@
+[tool.poetry]
+name = "wagtail-localize-panel"
+version = "0.1.0"
+description = "Wagtail localize panel and notification"
+authors = ["Guillaume Gauvrit <guillaume@gandi.net>"]
+license = "BSD-Derived"
+classifiers = [
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Internet :: WWW/HTTP",
+  "Framework :: Wagtail",
+  "Framework :: Wagtail :: 2",
+  "License :: OSI Approved :: BSD License"
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.7"
+Django = "^3.2.4"
+wagtail = "^2.14.1"
+wagtail-localize = "^1.0"
+
+[tool.poetry.dev-dependencies]
+black = "^21.11b1"
+isort = "^5.10.1"
+pytest-django = "^4.4.0"
+xmlrunner = "^1.7.7"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
