@@ -6,7 +6,8 @@ from django.urls import reverse
 from django.utils import translation
 from wagtail.core.models import Locale
 
-from .config import get_app_label
+from .config import get_app_label, get_user_table, get_users_group_table
+
 
 PageToTranslate = namedtuple(
     "PageToTranslate",
@@ -32,35 +33,38 @@ def yield_locales():
 def get_locale_for_user(request):
     user = get_user(request)
     appname = get_app_label()
+    user_groups_table = get_users_group_table()
     if appname is None:
         raise RuntimeError("Missing key LOCALIZE_PANEL_APP_NAME")
-    query = """
+    query = f"""
     select wagtailcore_locale.id, wagtailcore_locale.language_code
     from wagtailcore_locale
     inner join wagtailcore_page on wagtailcore_locale.id = wagtailcore_page.locale_id
-    inner join wagtailcore_grouppagepermission on wagtailcore_grouppagepermission.page_id = wagtailcore_page.id
-    inner join django_content_type on wagtailcore_grouppagepermission.permission_type = 'edit'
-        and django_content_type.app_label = '%s'
-        and django_content_type.model = 'optin_translation'
-    inner join auth_permission on auth_permission.content_type_id = django_content_type.id
-                and auth_permission.codename = 'optin_translation'
+    inner join wagtailcore_grouppagepermission gperm on gperm.page_id = wagtailcore_page.id
+        and gperm.permission_type = 'edit'
+    inner join django_content_type ctype on ctype.app_label = 'wagtail_localize_panel'
+        and ctype.model = 'localize_panel'
+    inner join auth_permission on auth_permission.content_type_id = ctype.id
+                and auth_permission.codename = 'view_localize_panel'
     inner join auth_group_permissions on auth_group_permissions.permission_id = auth_permission.id
     inner join auth_group on auth_group.id = auth_group_permissions.group_id and
-        wagtailcore_grouppagepermission.group_id = auth_group.id
-    inner join users_user_groups on users_user_groups.group_id = auth_group.id
-        and  users_user_groups.user_id = %s;
+        gperm.group_id = auth_group.id
+    inner join {user_groups_table} on {user_groups_table}.group_id = auth_group.id
+        and  {user_groups_table}.user_id = {user.id};
     """
-    locales = Locale.objects.raw(query % (appname, user.id))
+    locales = Locale.objects.raw(query)
     return locales
 
 
 def get_users_for_locale(locale):
     """Get the list of user for the given local."""
-    query = """
-    select users_user.first_name, users_user.last_name, users_user.email
-    from users_user
-    inner join users_user_groups on users_user_groups.user_id = users_user.id
-    inner join auth_group on users_user_groups.group_id = auth_group.id
+    users = get_user_table()
+    user_groups = get_users_group_table()
+    query = f"""
+    select {users}.first_name, {users}.last_name, {users}.email
+    from {users}
+    inner join {user_groups} on {user_groups}.user_id = {users}.id
+    inner join auth_group on {user_groups}.group_id = auth_group.id
     inner join auth_group_permissions on auth_group.id = auth_group_permissions.group_id
     inner join auth_permission on permission_id = auth_permission.id and codename = 'optin_translation'
     inner join django_content_type on auth_permission.content_type_id = django_content_type.id

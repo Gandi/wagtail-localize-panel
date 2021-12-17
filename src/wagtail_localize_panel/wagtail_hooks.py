@@ -9,11 +9,18 @@ from .utils import update_translations
 from .views import WorkflowPagesToTranslatePanel
 
 
+
+@hooks.register("register_permissions")
+def register_localize_panel():
+    return Permission.objects.filter(
+        content_type__app_label="wagtail_localize_panel", codename="view_localize_panel"
+    )
+
+
 @hooks.register("register_permissions")
 def register_submit_translation_permission():
-    appname = get_app_label()
     return Permission.objects.filter(
-        content_type__app_label=appname, codename="optin_translation"
+        content_type__app_label="wagtail_localize_panel", codename="optin_translation"
     )
 
 

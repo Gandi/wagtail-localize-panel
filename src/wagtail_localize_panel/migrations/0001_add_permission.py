@@ -3,48 +3,10 @@
 from django.db import migrations
 
 
-def create_submit_translation_permission(apps, schema_editor):
-    ContentType = apps.get_model("contenttypes.ContentType")
-    Permission = apps.get_model("auth.Permission")
-    Group = apps.get_model("auth.Group")
-
-    # Add a fake content type to hang the 'Can submit translations' permission off.
-    # The fact that this doesn't correspond to an actual defined model shouldn't matter, I hope...
-    wagtailadmin_content_type, created = ContentType.objects.get_or_create(
-        app_label="wagtail_localize_panel",
-        model="optin_translation",
-    )
-
-    # Create admin permission
-    optin_translation_perm, created = Permission.objects.get_or_create(
-        content_type=wagtailadmin_content_type,
-        codename="optin_translation",
-        name="Receive email on translation",
-    )
-
-
-def remove_submit_translation_permission(apps, schema_editor):
-    ContentType = apps.get_model("contenttypes.ContentType")
-    Permission = apps.get_model("auth.Permission")
-    wagtailadmin_content_type = ContentType.objects.get(
-        app_label="wagtail_localize_panel",
-        model="optin_translation",
-    )
-    # This cascades to Group
-    Permission.objects.filter(
-        content_type=wagtailadmin_content_type,
-        codename="optin_translation",
-    ).delete()
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("adminworkflow", "0001_add_permission"),
     ]
 
     operations = [
-        migrations.RunPython(
-            create_submit_translation_permission, remove_submit_translation_permission
-        ),
     ]
