@@ -25,7 +25,7 @@ def create_submit_translation_permission(apps, schema_editor):
     optin_translation_perm, created = Permission.objects.get_or_create(
         content_type=wagtailadmin_optin_translation,
         codename="optin_translation",
-        name="Receive email on translation",
+        name="Receive email on new translations",
     )
     view_localize_panel_perm, created = Permission.objects.get_or_create(
         content_type=wagtailadmin_localize_panel,
