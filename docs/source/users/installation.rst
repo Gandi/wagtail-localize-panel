@@ -85,3 +85,15 @@ Wagtail email must also properly be set, for example:
    EMAIL_HOST = "smtp.example.net"
    EMAIL_PORT = 25
    WAGTAILADMIN_NOTIFICATION_FROM_EMAIL = "wagtail-admin-email@example.net"
+
+
+
+.. note::
+
+   If the django user model has been redefined, e.g. not `auth_`,
+   then the prefix must be set using the setting `LOCALIZE_PANEL_AUTH_PREFIX`
+
+   ::
+
+      LOCALIZE_PANEL_AUTH_PREFIX = "<prefix>_"
+
