@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "wagtail-localize-panel"
-version = "0.1.0"
+version = "0.1.1"
 description = "Wagtail localize panel and notification"
 authors = ["Guillaume Gauvrit <guillaume@gandi.net>"]
 license = "BSD-Derived"
