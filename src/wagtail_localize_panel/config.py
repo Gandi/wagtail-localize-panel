@@ -1,4 +1,4 @@
-"""Load settings for the wagtail-oauth2 app."""
+"""Load settings for the wagtail-localize-panel app."""
 from django.conf import settings
 
 global_prefix = "LOCALIZE_PANEL_"
