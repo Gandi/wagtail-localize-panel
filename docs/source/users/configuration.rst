@@ -54,20 +54,20 @@ And add the new role tab of the user, check the box of the new group and
 click the save button.
 
 .. image:: ./screen_7.png
-   :alt: Add the role to the user user.
+   :alt: Add the role to the user.
 
 
-Now users in the group have the panel of translations in there home page:
+Now users in the group have the panel of translations in their home page:
 
 .. image:: ./screen_8.png
-   :alt: Add the role to the user user.
+   :alt: Add the role to the user.
 
 if the checkbox `Receive email on new translations` is checked,
 every time the page in the source lang is published, an email will be
-sent to users to prevent for the incoming translations.
+sent to users to notify them of the incoming translations.
 
 
 .. important::
 
-   This plugin automatically "synchronize translations", so it is now useless
+   This plugin automatically does the "synchronize translations", so it is now useless
    to use the `Sync translated pages`
