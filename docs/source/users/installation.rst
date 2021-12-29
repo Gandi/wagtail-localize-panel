@@ -24,9 +24,9 @@ INSTALLED_APPS
 
 ``wagtail-localize-panel`` is a Django application that must be installed,
 so it must be in the ``INSTALLED_APPS`` list of your settings module.
-And, to work, it requires other app that are probably already installed.
+And, to work it requires other apps that are probably already installed.
 
-Here is the lists of the minimum installed app.
+Here is the lists of the minimum apps to install.
 
 ::
 
@@ -49,11 +49,11 @@ Here is the lists of the minimum installed app.
 TEMPLATES
 ~~~~~~~~~
 
-`wagtail-localize-panel` render an admin template `workflow_pages_to_translate.html`
+``wagtail-localize-panel`` renders an admin template ``workflow_pages_to_translate.html``
 for the translators.
 
 The template is provided using django template system in the package,
-the settings `APP_DIRS` must be set to `True` in order to render it.
+the setting ``APP_DIRS`` must be set to ``True`` in order to render it.
 
 ::
 
